@@ -1,2 +1,3 @@
-# ecf-front
-Front-end of Studi's "ECF" app.
+# ecf-studi
+
+Monorepo for Studi's "ECF" app.
