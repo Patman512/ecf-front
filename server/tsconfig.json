@@ -24,7 +24,7 @@
         "suppressImplicitAnyIndexErrors": true,
         "target": "ES2022",
         "tsBuildInfoFile": "build/tsconfig.tsbuildinfo",
-        "types": ["node"]
+        "types": ["node", "mocha"]
     },
     "exclude": [],
     "include": ["./src/**/*.ts"]
