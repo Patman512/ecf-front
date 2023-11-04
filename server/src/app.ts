@@ -1,15 +1,20 @@
 import * as express from 'express';
-import { middleware } from './middleware';
+import { getWebAppHomePageData } from './modules/webApp';
 
 const app = express();
 const port = 3000;
 
-app.use(middleware);
+//app.use(middleware);
 
-app.get('/', (req, res) => {
-    res.send(
-        `Unsupported request:\nRequest method: ${req.method}\nRequest host: ${req.headers.host}\nRequest url: ${req.url}.`
-    );
+// Endpoint that provides all the data required to display the web app's home page
+app.get('/getwebapphomepagedata', (_req, res, next) => {
+    getWebAppHomePageData((error, homePageData) => {
+        if (error) {
+            return next(error);
+        }
+
+        return res.send(homePageData);
+    });
 });
 
 app.listen(port);
