@@ -10,3 +10,12 @@ export interface HomePageData {
     services: Service[];
     openingHours: OpeningHour[];
 }
+
+export interface SendEmailParams {
+    lastname: string;
+    firstname: string;
+    email: string;
+    phone: number;
+    message: string;
+    carOfferTitle?: string;
+}
