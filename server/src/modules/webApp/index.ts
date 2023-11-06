@@ -1,1 +1,1 @@
-export { getWebAppHomePageData, sendEmail } from './webApp-services';
+export { getWebAppHomePageData, sendEmail, submitRating } from './webApp-services';

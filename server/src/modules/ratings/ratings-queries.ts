@@ -1,6 +1,7 @@
+import { ResultSetHeader } from 'mysql2';
 import { db } from '../../database/mySQL';
 import { Callback } from '../../types';
-import { Rating } from './ratings-types';
+import { InsertRatingParams, Rating } from './ratings-types';
 
 export const getApprovedRatings = (cb: Callback<Rating[]>) => {
     db.query(
@@ -20,6 +21,22 @@ export const getApprovedRatings = (cb: Callback<Rating[]>) => {
             }
 
             return cb(null, results as Rating[]);
+        }
+    );
+};
+
+export const insertRating = (params: InsertRatingParams, cb: Callback<ResultSetHeader>) => {
+    const { name, comment, rating } = params;
+
+    db.query(
+        `INSERT INTO Ratings (authorName, comment, rating, creationDateUnix) VALUES (?, ?, ?, UNIX_TIMESTAMP())`,
+        [name, comment, rating],
+        (error, result) => {
+            if (error) {
+                return cb(error);
+            }
+
+            return cb(null, result as ResultSetHeader);
         }
     );
 };

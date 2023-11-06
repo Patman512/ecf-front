@@ -5,9 +5,9 @@ import { errorOnly } from '../../utils';
 import { getEmployeeEmails } from '../accounts';
 import { getAvailableCarOffers, getEquipmentsList } from '../carOffers';
 import { getOpeningHours } from '../openingHours';
-import { getApprovedRatings } from '../ratings';
+import { getApprovedRatings, insertRating } from '../ratings';
 import { getServices } from '../services';
-import { HomePageData, SendEmailParams } from './webApp-types';
+import { HomePageData, SendEmailParams, SubmitRatingParams } from './webApp-types';
 
 export const getWebAppHomePageData = (cb: Callback<HomePageData>) => {
     async.auto<HomePageData>(
@@ -24,6 +24,11 @@ export const getWebAppHomePageData = (cb: Callback<HomePageData>) => {
 
 export const sendEmail = (params: SendEmailParams, cb: CallbackErrorOnly) => {
     const { lastname, firstname, email, phone, message, carOfferTitle } = params;
+
+    if (!lastname || !firstname || !email || !phone || !message) {
+        return cb(new Error('Invalid input.'));
+    }
+
     const emailTitle = carOfferTitle
         ? `Question de ${firstname} ${lastname} au sujet de "${carOfferTitle}".`
         : `Question générale de ${firstname} ${lastname}.`;
@@ -59,4 +64,24 @@ export const sendEmail = (params: SendEmailParams, cb: CallbackErrorOnly) => {
         },
         errorOnly(cb)
     );
+};
+
+export const submitRating = (params: SubmitRatingParams, cb: Callback<boolean>) => {
+    const { name, rating } = params;
+
+    if (!name) {
+        return cb(new Error('Name is missing.'));
+    }
+
+    if (!rating || rating < 0 || rating > 5) {
+        return cb(new Error('Invalid rating.'));
+    }
+
+    return insertRating(params, (error, result) => {
+        if (error) {
+            return cb(error);
+        }
+
+        return cb(null, result?.affectedRows === 1);
+    });
 };
