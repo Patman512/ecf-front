@@ -5,9 +5,9 @@ import { errorOnly } from '../../utils';
 import { getEmployeeEmails } from '../accounts';
 import { getAvailableCarOffers, getEquipmentsList } from '../carOffers';
 import { getOpeningHours } from '../openingHours';
-import { getApprovedRatings, insertRating } from '../ratings';
+import { InsertRatingParams, getApprovedRatings, insertRating } from '../ratings';
 import { getServices } from '../services';
-import { HomePageData, SendEmailParams, SubmitRatingParams } from './webApp-types';
+import { HomePageData, SendEmailParams } from './webApp-types';
 
 export const getWebAppHomePageData = (cb: Callback<HomePageData>) => {
     async.auto<HomePageData>(
@@ -23,18 +23,18 @@ export const getWebAppHomePageData = (cb: Callback<HomePageData>) => {
 };
 
 export const sendEmail = (params: SendEmailParams, cb: CallbackErrorOnly) => {
-    const { lastname, firstname, email, phone, message, carOfferTitle } = params;
+    const { lastName, firstName, email, phone, message, carOfferTitle } = params;
 
-    if (!lastname || !firstname || !email || !phone || !message) {
+    if (!lastName || !firstName || !email || !phone || !message) {
         return cb(new Error('Invalid input.'));
     }
 
     const emailTitle = carOfferTitle
-        ? `Question de ${firstname} ${lastname} au sujet de "${carOfferTitle}".`
-        : `Question générale de ${firstname} ${lastname}.`;
+        ? `Question de ${firstName} ${lastName} au sujet de "${carOfferTitle}".`
+        : `Question générale de ${firstName} ${lastName}.`;
     const emailBody = `
-    Nom: ${lastname}
-    Prénom: ${firstname}
+    Nom: ${lastName}
+    Prénom: ${firstName}
     Email: ${email}
     Téléphone: ${phone}
     Message: ${message}
@@ -66,7 +66,7 @@ export const sendEmail = (params: SendEmailParams, cb: CallbackErrorOnly) => {
     );
 };
 
-export const submitRating = (params: SubmitRatingParams, cb: Callback<boolean>) => {
+export const submitRating = (params: InsertRatingParams, cb: Callback<boolean>) => {
     const { name, rating } = params;
 
     if (!name) {
