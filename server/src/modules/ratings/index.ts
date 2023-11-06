@@ -1,2 +1,2 @@
 export { getApprovedRatings, insertRating } from './ratings-queries';
-export { Rating } from './ratings-types';
+export { InsertRatingParams, Rating } from './ratings-types';

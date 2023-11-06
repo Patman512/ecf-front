@@ -14,8 +14,7 @@ INSERT INTO Users (firstName, lastName, email, pwdHash, accountType) VALUES
 
 INSERT INTO AccountTypes (name) VALUES
 ('Administrator'),
-('Employee'),
-('Customer');
+('Employee');
 
 INSERT INTO CarOffers (title, description, priceInCents, manufacturer, model, year, mileageInKm, fuelType, gearboxType, carType, color, numberOfDoors, numberOfSeats, taxHorsePower, horsePower, equipments, creationDateUnix, authorId, sold) VALUES
 ('Renault Clio Essence 2021 91ch', 'Super voiture !', 1425000, 'Renault', 'Clio', 2021, 24000, 'Essence', 'Manuelle', 'Berline', 'Grise', 5, 5, 5, 91, '1,2,4,9,10,14,15,16,19,20,21,22', UNIX_TIMESTAMP(), 1, 1),

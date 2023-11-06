@@ -12,16 +12,10 @@ export interface HomePageData {
 }
 
 export interface SendEmailParams {
-    lastname: string;
-    firstname: string;
+    lastName: string;
+    firstName: string;
     email: string;
     phone: number;
     message: string;
     carOfferTitle?: string;
-}
-
-export interface SubmitRatingParams {
-    name: string;
-    comment: string;
-    rating: number;
 }
