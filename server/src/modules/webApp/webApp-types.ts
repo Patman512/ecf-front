@@ -19,3 +19,9 @@ export interface SendEmailParams {
     message: string;
     carOfferTitle?: string;
 }
+
+export interface SubmitRatingParams {
+    name: string;
+    comment: string;
+    rating: number;
+}

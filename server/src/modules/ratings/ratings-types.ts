@@ -7,3 +7,9 @@ export interface Rating {
     approved: boolean;
     approverId: number | null;
 }
+
+export interface InsertRatingParams {
+    name: string;
+    comment: string;
+    rating: number;
+}
