@@ -1,7 +1,7 @@
 import { ResultSetHeader } from 'mysql2';
 import { db } from '../../database/mySQL';
 import { Callback } from '../../types';
-import { InsertUserParams } from './accounts-types';
+import { InsertUserParams, UserAccountInfo } from './accounts-types';
 
 export const getEmployeeEmails = (cb: Callback<string[]>) => {
     const employeeAccountTypes = ['Administrator', 'Employee'];
@@ -36,6 +36,26 @@ export const insertUser = (params: InsertUserParams, cb: Callback<ResultSetHeade
             }
 
             return cb(null, result as ResultSetHeader);
+        }
+    );
+};
+
+export const getAccountInfoForEmail = (email: string, cb: Callback<UserAccountInfo>) => {
+    db.query(
+        `SELECT firstName, lastName, email, pwdHash, accountType
+        FROM Users
+        WHERE email = ?`,
+        [email],
+        (error, results) => {
+            if (error) {
+                return cb(error);
+            }
+
+            if (!(results as UserAccountInfo[]).length) {
+                return cb(new Error('User not found'));
+            }
+
+            return cb(null, results[0] as UserAccountInfo);
         }
     );
 };
