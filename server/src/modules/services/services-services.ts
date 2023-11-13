@@ -1,6 +1,6 @@
 import { Callback } from '../../types';
-import { insertService, updateService } from './services-queries';
-import { InsertServiceParams, UpdateServiceParams } from './services-types';
+import { deleteService, insertService, updateService } from './services-queries';
+import { DeleteServiceParams, InsertServiceParams, UpdateServiceParams } from './services-types';
 
 export const addService = (params: InsertServiceParams, cb: Callback<boolean>) => {
     const { name } = params;
@@ -26,6 +26,22 @@ export const editService = (params: UpdateServiceParams, cb: Callback<boolean>) 
     }
 
     return updateService(params, (error, result) => {
+        if (error) {
+            return cb(error);
+        }
+
+        return cb(null, result?.affectedRows === 1);
+    });
+};
+
+export const removeService = (params: DeleteServiceParams, cb: Callback<boolean>) => {
+    const { id } = params;
+
+    if (!id) {
+        return cb(new Error('Invalid input.'));
+    }
+
+    return deleteService(params, (error, result) => {
         if (error) {
             return cb(error);
         }

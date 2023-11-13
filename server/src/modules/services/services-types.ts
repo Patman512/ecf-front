@@ -14,3 +14,7 @@ export interface UpdateServiceParams {
     name: string;
     description: string;
 }
+
+export interface DeleteServiceParams {
+    id: number;
+}

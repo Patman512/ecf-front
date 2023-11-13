@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { createUser } from './modules/accounts';
-import { addService, editService } from './modules/services';
+import { addService, editService, removeService } from './modules/services';
 import { getWebAppHomePageData, sendEmail, submitRating } from './modules/webApp';
 
 const app = express();
@@ -67,6 +67,17 @@ app.post('/addservice', (req, res, next) => {
 // Endpoint that edits an existing service
 app.post('/editservice', (req, res, next) => {
     editService(req.body, (error, result) => {
+        if (error) {
+            return next(error);
+        }
+
+        return res.send(result ? 'Done' : 'Unexpected number of affected rows.');
+    });
+});
+
+// Endpoint that removes an existing service
+app.post('/removeService', (req, res, next) => {
+    removeService(req.body, (error, result) => {
         if (error) {
             return next(error);
         }
