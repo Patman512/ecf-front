@@ -3,6 +3,7 @@ import { createUser } from './modules/accounts';
 import { addService, editService, removeService } from './modules/services';
 import { getWebAppHomePageData, sendEmail, submitRating } from './modules/webApp';
 import { editOpeningHours } from './modules/openingHours';
+import { addCarOffer } from './modules/carOffers';
 
 const app = express();
 const port = 3000;
@@ -90,6 +91,17 @@ app.post('/removeService', (req, res, next) => {
 // Endpoint that updates the opening hours
 app.post('/editopeninghours', (req, res, next) => {
     editOpeningHours(req.body, (error, result) => {
+        if (error) {
+            return next(error);
+        }
+
+        return res.send(result ? 'Done' : 'Unexpected number of affected rows.');
+    });
+});
+
+// Endpoint that adds a new car offer
+app.post('/addcaroffer', (req, res, next) => {
+    addCarOffer(req.body, (error, result) => {
         if (error) {
             return next(error);
         }
