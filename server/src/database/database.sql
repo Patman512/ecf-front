@@ -8,14 +8,14 @@ CREATE TABLE IF NOT EXISTS `Users` (
     `lastName` varchar(128) NOT NULL COMMENT 'pii',
     `email` varchar(128) NOT NULL COMMENT 'pii',
     `pwdHash` varchar(256) NOT NULL,
-    `accountType` tinyint(4) unsigned NOT NULL,
+    `accountType` tinyint(3) unsigned NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `email` (`email`)
 );
 
 -- Table that stores the different account types available
 CREATE TABLE IF NOT EXISTS `AccountTypes` (
-    `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
+    `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
     `name` varchar(64) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `name` (`name`)
@@ -35,9 +35,9 @@ CREATE TABLE IF NOT EXISTS `CarOffers` (
     `gearboxType` varchar(32) NOT NULL,
     `carType` varchar (32) NOT NULL,
     `color` varchar(16) NOT NULL,
-    `numberOfDoors` tinyint(4) unsigned NOT NULL,
-    `numberOfSeats` tinyint(4) unsigned NOT NULL,
-    `taxHorsePower` tinyint(4) unsigned NOT NULL,
+    `numberOfDoors` tinyint(3) unsigned NOT NULL,
+    `numberOfSeats` tinyint(3) unsigned NOT NULL,
+    `taxHorsePower` tinyint(3) unsigned NOT NULL,
     `horsePower` smallint(6) unsigned NOT NULL,
     `equipments` varchar(1024) DEFAULT NULL, -- List of equipment ids separated by commas
     `creationDateUnix` int(11) unsigned NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `Ratings` (
     `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
     `authorName` varchar(128) NOT NULL,
     `comment` varchar(512) DEFAULT NULL,
-    `rating` tinyint(4) unsigned NOT NULL,
+    `rating` tinyint(3) unsigned NOT NULL,
     `creationDateUnix` int(11) unsigned NOT NULL,
     `approved` boolean NOT NULL DEFAULT 0,
     `approverId` int(11) unsigned DEFAULT NULL,
