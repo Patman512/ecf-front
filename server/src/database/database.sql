@@ -10,14 +10,15 @@ CREATE TABLE IF NOT EXISTS `Users` (
     `pwdHash` varchar(256) NOT NULL,
     `accountType` tinyint(4) unsigned NOT NULL,
     PRIMARY KEY (`id`),
-    KEY `email` (`email`)
+    UNIQUE KEY `email` (`email`)
 );
 
 -- Table that stores the different account types available
 CREATE TABLE IF NOT EXISTS `AccountTypes` (
     `id` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
     `name` varchar(64) NOT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `name` (`name`)
 );
 
 -- Table that stores all the car offers and their related info
@@ -67,6 +68,7 @@ CREATE TABLE IF NOT EXISTS `Ratings` (
     `approved` boolean NOT NULL DEFAULT 0,
     `approverId` int(11) unsigned DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `authorName` (`authorName`),
     KEY `approverId` (`approverId`)
 );
 

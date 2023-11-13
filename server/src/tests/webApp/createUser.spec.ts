@@ -22,13 +22,28 @@ describe('createUser', () => {
         createUser(
             {
                 firstName: 'Bob',
-                lastName: 'Marley',
-                email: 'bob.marley@garagevp.fr',
+                lastName: 'Dylan',
+                email: 'bob.dylan@garagevp.fr',
                 pwdHash: 'password',
                 accountType: 100
             },
             (error) => {
                 assert.strictEqual(error?.message, 'Invalid account type.');
+            }
+        );
+    });
+
+    it('should return an error if email address is already used', () => {
+        createUser(
+            {
+                firstName: 'Bob',
+                lastName: 'Marley',
+                email: 'bob.marley@garagevp.fr',
+                pwdHash: 'password',
+                accountType: 2
+            },
+            (error) => {
+                assert.strictEqual(error?.message, "Duplicate entry 'bob.marley@garagevp.fr' for key 'Users.email'");
             }
         );
     });

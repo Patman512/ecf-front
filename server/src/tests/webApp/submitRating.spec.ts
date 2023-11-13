@@ -9,8 +9,15 @@ describe('submitRating', () => {
         });
     });
 
+    it('should return true even if author had already left a rating (update)', () => {
+        submitRating({ name: 'Bob', comment: 'Test comment.', rating: 5 }, (error, result) => {
+            assert.isNull(error);
+            assert.isOk(result);
+        });
+    });
+
     it('should return an error if rating is out of bounds', () => {
-        submitRating({ name: 'Bob', comment: 'Test comment.', rating: 100 }, (error) => {
+        submitRating({ name: 'John', comment: 'Test comment.', rating: 100 }, (error) => {
             assert.strictEqual(error?.message, 'Invalid rating.');
         });
     });
