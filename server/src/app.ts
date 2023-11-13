@@ -1,15 +1,16 @@
 import * as express from 'express';
+import { middleware } from './middleware';
 import { createUser } from './modules/accounts';
+import { addCarOffer } from './modules/carOffers';
+import { editOpeningHours } from './modules/openingHours';
 import { addService, editService, removeService } from './modules/services';
 import { getWebAppHomePageData, sendEmail, submitRating } from './modules/webApp';
-import { editOpeningHours } from './modules/openingHours';
-import { addCarOffer } from './modules/carOffers';
 
 const app = express();
 const port = 3000;
 
-//app.use(middleware);
 app.use(express.json());
+app.use(middleware);
 
 // Endpoint that provides all the data required to display the web app's home page
 app.get('/getwebapphomepagedata', (_req, res, next) => {
@@ -78,7 +79,7 @@ app.post('/editservice', (req, res, next) => {
 });
 
 // Endpoint that removes an existing service
-app.post('/removeService', (req, res, next) => {
+app.post('/removeservice', (req, res, next) => {
     removeService(req.body, (error, result) => {
         if (error) {
             return next(error);

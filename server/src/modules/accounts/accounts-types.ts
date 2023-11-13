@@ -5,3 +5,5 @@ export interface InsertUserParams {
     pwdHash: string;
     accountType: number;
 }
+
+export interface UserAccountInfo extends InsertUserParams {}
