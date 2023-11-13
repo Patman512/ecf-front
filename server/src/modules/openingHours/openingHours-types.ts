@@ -6,3 +6,7 @@ export interface OpeningHour {
     breakStartTime: string | null;
     breakEndTime: string | null;
 }
+
+export interface EditOpeningHoursParams {
+    openingHours: OpeningHour[];
+}
