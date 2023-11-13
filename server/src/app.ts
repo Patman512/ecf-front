@@ -1,6 +1,7 @@
 import * as express from 'express';
-import { getWebAppHomePageData, sendEmail, submitRating } from './modules/webApp';
 import { createUser } from './modules/accounts';
+import { addService } from './modules/services';
+import { getWebAppHomePageData, sendEmail, submitRating } from './modules/webApp';
 
 const app = express();
 const port = 3000;
@@ -44,6 +45,17 @@ app.post('/submitrating', (req, res, next) => {
 // Endpoint that creates a new user account
 app.post('/createaccount', (req, res, next) => {
     createUser(req.body, (error, result) => {
+        if (error) {
+            return next(error);
+        }
+
+        return res.send(result ? 'Done' : 'Unexpected number of affected rows.');
+    });
+});
+
+// Endpoint that adds a new service
+app.post('/addservice', (req, res, next) => {
+    addService(req.body, (error, result) => {
         if (error) {
             return next(error);
         }

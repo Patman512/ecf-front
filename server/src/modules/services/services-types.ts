@@ -3,3 +3,8 @@ export interface Service {
     name: string;
     description: string | null;
 }
+
+export interface InsertServiceParams {
+    name: string;
+    description?: string;
+}

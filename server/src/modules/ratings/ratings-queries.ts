@@ -29,7 +29,17 @@ export const insertRating = (params: InsertRatingParams, cb: Callback<ResultSetH
     const { name, comment, rating } = params;
 
     db.query(
-        `INSERT INTO Ratings (authorName, comment, rating, creationDateUnix) VALUES (?, ?, ?, UNIX_TIMESTAMP())`,
+        `INSERT INTO Ratings
+            (authorName, comment, rating, creationDateUnix)
+        VALUES
+            (?, ?, ?, UNIX_TIMESTAMP())
+        ON DUPLICATE KEY UPDATE
+            authorName = VALUES(authorName),
+            comment = VALUES(comment),
+            rating = VALUES(rating),
+            creationDateUnix = VALUES(creationDateUnix),
+            approved = 0,
+            approverId = null`,
         [name, comment, rating],
         (error, result) => {
             if (error) {

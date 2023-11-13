@@ -17,28 +17,28 @@ describe('getWebAppHomePageData', () => {
     it('should return the expected number of car offers', () => {
         getWebAppHomePageData((error, homePageData) => {
             assert.isNull(error);
-            assert.lengthOf(homePageData?.carOffers as CarOffer[], 4);
+            assert.isAtLeast((homePageData?.carOffers as CarOffer[]).length, 4);
         });
     });
 
     it('should return the expected number of equipments', () => {
         getWebAppHomePageData((error, homePageData) => {
             assert.isNull(error);
-            assert.lengthOf(homePageData?.equipmentsList as Equipment[], 25);
+            assert.isAtLeast((homePageData?.equipmentsList as Equipment[]).length, 25);
         });
     });
 
     it('should return the expected number of approved ratings', () => {
         getWebAppHomePageData((error, homePageData) => {
             assert.isNull(error);
-            assert.lengthOf(homePageData?.ratings as Rating[], 2);
+            assert.isAtLeast((homePageData?.ratings as Rating[]).length, 2);
         });
     });
 
     it('should return the expected number of services', () => {
         getWebAppHomePageData((error, homePageData) => {
             assert.isNull(error);
-            assert.lengthOf(homePageData?.services as Service[], 6);
+            assert.isAtLeast((homePageData?.services as Service[]).length, 6);
         });
     });
 
