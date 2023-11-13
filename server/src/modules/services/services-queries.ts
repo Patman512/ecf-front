@@ -1,7 +1,7 @@
 import { ResultSetHeader } from 'mysql2';
 import { db } from '../../database/mySQL';
 import { Callback } from '../../types';
-import { InsertServiceParams, Service, UpdateServiceParams } from './services-types';
+import { DeleteServiceParams, InsertServiceParams, Service, UpdateServiceParams } from './services-types';
 
 export const getServices = (cb: Callback<Service[]>) => {
     db.query(
@@ -49,4 +49,16 @@ export const updateService = (params: UpdateServiceParams, cb: Callback<ResultSe
             return cb(null, result as ResultSetHeader);
         }
     );
+};
+
+export const deleteService = (params: DeleteServiceParams, cb: Callback<ResultSetHeader>) => {
+    const { id } = params;
+
+    db.query(`DELETE FROM Services WHERE id = ?`, [id], (error, result) => {
+        if (error) {
+            return cb(error);
+        }
+
+        return cb(null, result as ResultSetHeader);
+    });
 };

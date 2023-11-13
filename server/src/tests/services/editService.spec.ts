@@ -8,4 +8,11 @@ describe('editService', () => {
             assert.isOk(result);
         });
     });
+
+    it('should return false if the row to update does not exist', () => {
+        editService({ id: 50, name: 'Géométrie', description: 'Test description.' }, (error, result) => {
+            assert.isNull(error);
+            assert.isNotOk(result);
+        });
+    });
 });
