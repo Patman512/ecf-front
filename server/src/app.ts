@@ -2,6 +2,7 @@ import * as express from 'express';
 import { createUser } from './modules/accounts';
 import { addService, editService, removeService } from './modules/services';
 import { getWebAppHomePageData, sendEmail, submitRating } from './modules/webApp';
+import { editOpeningHours } from './modules/openingHours';
 
 const app = express();
 const port = 3000;
@@ -78,6 +79,17 @@ app.post('/editservice', (req, res, next) => {
 // Endpoint that removes an existing service
 app.post('/removeService', (req, res, next) => {
     removeService(req.body, (error, result) => {
+        if (error) {
+            return next(error);
+        }
+
+        return res.send(result ? 'Done' : 'Unexpected number of affected rows.');
+    });
+});
+
+// Endpoint that updates the opening hours
+app.post('/editopeninghours', (req, res, next) => {
+    editOpeningHours(req.body, (error, result) => {
         if (error) {
             return next(error);
         }
