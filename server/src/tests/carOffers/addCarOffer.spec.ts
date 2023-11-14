@@ -25,7 +25,7 @@ describe('addCarOffer', () => {
             },
             (error, result) => {
                 assert.isNull(error);
-                assert.isOk(result);
+                assert.isAtLeast(result as number, 5);
             }
         );
     });

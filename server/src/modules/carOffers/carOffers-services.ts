@@ -2,7 +2,7 @@ import { Callback } from '../../types';
 import { insertCarOffer } from './carOffers-queries';
 import { InsertCarOfferParams } from './carOffers-types';
 
-export const addCarOffer = (params: InsertCarOfferParams, cb: Callback<boolean>) => {
+export const addCarOffer = (params: InsertCarOfferParams, cb: Callback<number>) => {
     if (
         !params.title ||
         !params.priceInCents ||
@@ -28,6 +28,6 @@ export const addCarOffer = (params: InsertCarOfferParams, cb: Callback<boolean>)
             return cb(error);
         }
 
-        return cb(null, result?.affectedRows === 1);
+        return cb(null, result?.insertId);
     });
 };
