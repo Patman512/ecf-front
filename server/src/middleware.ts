@@ -1,16 +1,22 @@
 import { NextFunction, type Request, type Response } from 'express';
 import { validateAuthentication } from './modules/authentication';
 
+enum AccountType {
+    Administrator = 1,
+    Employee = 2
+}
+
 const requiredAuth = {
     '/getwebapphomepagedata': null,
     '/sendemailfromcontactform': null,
     '/submitrating': null,
-    '/createaccount': 1,
-    '/addservice': 1,
-    '/editservice': 1,
-    '/removeservice': 1,
-    '/editopeninghours': 1,
-    '/addcaroffer': 2
+    '/createaccount': AccountType.Administrator,
+    '/addservice': AccountType.Administrator,
+    '/editservice': AccountType.Administrator,
+    '/removeservice': AccountType.Administrator,
+    '/editopeninghours': AccountType.Administrator,
+    '/addcaroffer': AccountType.Employee,
+    '/uploadfiles': AccountType.Employee
 };
 
 export const middleware = (req: Request, res: Response, next: NextFunction) => {
@@ -24,7 +30,7 @@ export const middleware = (req: Request, res: Response, next: NextFunction) => {
     }
 
     if (!authorization) {
-        return res.send('Missing authorization header');
+        return res.status(400).send('Missing authorization header');
     }
 
     const parsedAuth = authorization.split(' ');
@@ -32,14 +38,14 @@ export const middleware = (req: Request, res: Response, next: NextFunction) => {
     const credentials = parsedAuth[1];
 
     if (authType !== 'Basic') {
-        return res.send('Invalid authentication');
+        return res.status(400).send('Invalid authentication');
     }
 
-    validateAuthentication(
+    return validateAuthentication(
         { requestCredentials: credentials, requiredAccountType: requiredAuth[endpoint] },
         (error) => {
             if (error) {
-                return res.send(error.message);
+                return res.status(403).send(error.message);
             }
 
             return next();

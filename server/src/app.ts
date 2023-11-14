@@ -1,10 +1,12 @@
 import * as express from 'express';
+import * as fileUpload from 'express-fileupload';
 import { middleware } from './middleware';
 import { createUser } from './modules/accounts';
 import { addCarOffer } from './modules/carOffers';
 import { editOpeningHours } from './modules/openingHours';
 import { addService, editService, removeService } from './modules/services';
 import { getWebAppHomePageData, sendEmail, submitRating } from './modules/webApp';
+import { uploadFiles } from './modules/images';
 
 const app = express();
 const port = 3000;
@@ -19,7 +21,11 @@ app.get('/getwebapphomepagedata', (_req, res, next) => {
             return next(error);
         }
 
-        return res.send(homePageData);
+        if (homePageData) {
+            return res.status(200).send(homePageData);
+        }
+
+        return res.status(500).send('Unexpected server error.');
     });
 });
 
@@ -30,7 +36,7 @@ app.post('/sendemailfromcontactform', (req, res, next) => {
             return next(error);
         }
 
-        return res.send('Done');
+        return res.status(200).send('OK');
     });
 });
 
@@ -41,7 +47,11 @@ app.post('/submitrating', (req, res, next) => {
             return next(error);
         }
 
-        return res.send(result ? 'Done' : 'Unexpected number of affected rows.');
+        if (result) {
+            return res.status(200).send('OK');
+        }
+
+        return res.status(500).send('Unexpected server error.');
     });
 });
 
@@ -52,7 +62,11 @@ app.post('/createaccount', (req, res, next) => {
             return next(error);
         }
 
-        return res.send(result ? 'Done' : 'Unexpected number of affected rows.');
+        if (result) {
+            return res.status(200).send('OK');
+        }
+
+        return res.status(500).send('Unexpected server error.');
     });
 });
 
@@ -63,7 +77,11 @@ app.post('/addservice', (req, res, next) => {
             return next(error);
         }
 
-        return res.send(result ? 'Done' : 'Unexpected number of affected rows.');
+        if (result) {
+            return res.status(200).send('OK');
+        }
+
+        return res.status(500).send('Unexpected server error.');
     });
 });
 
@@ -74,7 +92,11 @@ app.post('/editservice', (req, res, next) => {
             return next(error);
         }
 
-        return res.send(result ? 'Done' : 'Unexpected number of affected rows.');
+        if (result) {
+            return res.status(200).send('OK');
+        }
+
+        return res.status(500).send('Unexpected server error.');
     });
 });
 
@@ -85,7 +107,11 @@ app.post('/removeservice', (req, res, next) => {
             return next(error);
         }
 
-        return res.send(result ? 'Done' : 'Unexpected number of affected rows.');
+        if (result) {
+            return res.status(200).send('OK');
+        }
+
+        return res.status(500).send('Unexpected server error.');
     });
 });
 
@@ -96,7 +122,11 @@ app.post('/editopeninghours', (req, res, next) => {
             return next(error);
         }
 
-        return res.send(result ? 'Done' : 'Unexpected number of affected rows.');
+        if (result) {
+            return res.status(200).send('OK');
+        }
+
+        return res.status(500).send('Unexpected server error.');
     });
 });
 
@@ -107,7 +137,22 @@ app.post('/addcaroffer', (req, res, next) => {
             return next(error);
         }
 
-        return res.send(result ? 'Done' : 'Unexpected number of affected rows.');
+        if (result) {
+            return res.status(200).send(result);
+        }
+
+        return res.status(500).send('Unexpected server error.');
+    });
+});
+
+// Endpoint that uploads images for car offers
+app.post('/uploadfiles', fileUpload({ createParentPath: true }), (req, res, next) => {
+    uploadFiles({ data: req.body, files: req.files }, (error) => {
+        if (error) {
+            return next(error);
+        }
+
+        return res.status(200).send('OK');
     });
 });
 
