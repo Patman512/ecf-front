@@ -8,8 +8,10 @@ enum AccountType {
 
 const requiredAuth = {
     '/getwebapphomepagedata': null,
+    '/getbackofficehomepagedata': AccountType.Employee,
     '/sendemailfromcontactform': null,
     '/submitrating': null,
+    '/approverating': AccountType.Employee,
     '/createaccount': AccountType.Administrator,
     '/addservice': AccountType.Administrator,
     '/editservice': AccountType.Administrator,

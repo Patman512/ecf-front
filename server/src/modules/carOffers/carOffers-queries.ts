@@ -38,6 +38,40 @@ export const getAvailableCarOffers = (cb: Callback<CarOffer[]>) => {
     );
 };
 
+export const getAllCarOffers = (cb: Callback<CarOffer[]>) => {
+    db.query(
+        `SELECT
+            id,
+            title,
+            description,
+            priceInCents,
+            manufacturer,
+            model,
+            year,
+            mileageInKm,
+            fuelType,
+            gearboxType,
+            carType,
+            color,
+            numberOfDoors,
+            numberOfSeats,
+            taxHorsePower,
+            horsePower,
+            equipments,
+            creationDateUnix,
+            authorId,
+            sold
+        FROM CarOffers`,
+        (error, results) => {
+            if (error) {
+                return cb(error);
+            }
+
+            return cb(null, results as CarOffer[]);
+        }
+    );
+};
+
 export const getEquipmentsList = (cb: Callback<Equipment[]>) => {
     db.query(
         `SELECT id, name

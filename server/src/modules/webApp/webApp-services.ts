@@ -3,9 +3,9 @@ import { transporter } from '../../email/nodemailer';
 import { Callback, CallbackErrorOnly } from '../../types';
 import { errorOnly } from '../../utils';
 import { getEmployeeEmails } from '../accounts';
-import { getAvailableCarOffers, getEquipmentsList } from '../carOffers';
+import { getAllCarOffers, getAvailableCarOffers, getEquipmentsList } from '../carOffers';
 import { getOpeningHours } from '../openingHours';
-import { InsertRatingParams, getApprovedRatings, insertRating } from '../ratings';
+import { InsertRatingParams, getAllRatings, getApprovedRatings, insertRating } from '../ratings';
 import { getServices } from '../services';
 import { HomePageData, SendEmailParams } from './webApp-types';
 
@@ -15,6 +15,19 @@ export const getWebAppHomePageData = (cb: Callback<HomePageData>) => {
             carOffers: (cb) => getAvailableCarOffers(cb),
             equipmentsList: (cb) => getEquipmentsList(cb),
             ratings: (cb) => getApprovedRatings(cb),
+            services: (cb) => getServices(cb),
+            openingHours: (cb) => getOpeningHours(cb)
+        },
+        cb
+    );
+};
+
+export const getBackofficeHomePageData = (cb: Callback<HomePageData>) => {
+    async.auto<HomePageData>(
+        {
+            carOffers: (cb) => getAllCarOffers(cb),
+            equipmentsList: (cb) => getEquipmentsList(cb),
+            ratings: (cb) => getAllRatings(cb),
             services: (cb) => getServices(cb),
             openingHours: (cb) => getOpeningHours(cb)
         },
