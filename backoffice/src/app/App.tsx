@@ -1,10 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
 import { AddCarOfferModal, CarOffer, CarOffersComponent, Equipment } from '../carOffers';
 import { EditOpeningHoursModal, OpeningHour, OpeningHoursComponent } from '../openingHours';
-import { AddRatingModal, Rating, RatingsComponent } from '../ratings';
+import { AddRatingModal, ManageRatingsModal, Rating, RatingsComponent } from '../ratings';
 import { Service, ServicesComponent, ManageServicesModal, AddServiceModal } from '../services';
 import { getHomePageData } from './api';
-import { Col, Container, Modal, Row, Toast, ToastContainer } from 'react-bootstrap';
+import { Button, Col, Container, Modal, Row, Toast, ToastContainer } from 'react-bootstrap';
+import { LoginModal } from '../authentication';
+import { AddUserModal } from '../accounts';
 
 enum ModalContent {
     addCarOffer = 1,
@@ -12,7 +14,8 @@ enum ModalContent {
     addRating,
     manageServices,
     addService,
-    editOpeningHours
+    editOpeningHours,
+    addUser
 }
 
 export const App: FC = () => {
@@ -21,6 +24,7 @@ export const App: FC = () => {
     const [ratings, setRatings] = useState<Rating[]>([]);
     const [services, setServices] = useState<Service[]>([]);
     const [openingHours, setOpeningHours] = useState<OpeningHour[]>([]);
+    const [loginModalShow, setLoginModalShow] = useState<boolean>(true);
     const [modalShow, setModalShow] = useState(false);
     const [modalContent, setModalContent] = useState<ModalContent | null>(null);
     const [errorShow, setErrorShow] = useState(false);
@@ -29,6 +33,10 @@ export const App: FC = () => {
     const fetchData = () => {
         getHomePageData((error, homePageData) => {
             if (error) {
+                if (error.message === 'Forbidden') {
+                    setLoginModalShow(true);
+                }
+
                 return setError(error.message);
             }
 
@@ -43,12 +51,11 @@ export const App: FC = () => {
             setRatings(ratings);
             setServices(services);
             setOpeningHours(openingHours);
+            setLoginModalShow(false);
         });
     };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    useEffect(() => fetchData, []);
 
     const onModalClose = () => {
         setModalShow(false);
@@ -73,6 +80,15 @@ export const App: FC = () => {
                 );
             case ModalContent.addRating:
                 return <AddRatingModal onClose={onModalClose} onSave={fetchData} onError={onModalError} />;
+            case ModalContent.manageRatings:
+                return (
+                    <ManageRatingsModal
+                        ratings={ratings}
+                        onClose={onModalClose}
+                        onSave={fetchData}
+                        onError={onModalError}
+                    />
+                );
             case ModalContent.manageServices:
                 return (
                     <ManageServicesModal
@@ -93,6 +109,8 @@ export const App: FC = () => {
                         onError={onModalError}
                     />
                 );
+            case ModalContent.addUser:
+                return <AddUserModal onClose={onModalClose} onSave={fetchData} onError={onModalError} />;
             default:
                 return;
         }
@@ -105,6 +123,7 @@ export const App: FC = () => {
                     <Toast.Body>Erreur: {error}</Toast.Body>
                 </Toast>
             </ToastContainer>
+            <LoginModal show={loginModalShow} onValidate={fetchData} onError={onModalError} />
             <Modal
                 show={modalShow}
                 onHide={() => setModalShow(false)}
@@ -118,8 +137,19 @@ export const App: FC = () => {
             </Modal>
             <Container>
                 <Row>
-                    <Col>
-                        <h1 style={{ textAlign: 'center' }}>Console d&apos;administration GVP</h1>
+                    <Col md="9" style={{ textAlign: 'end' }}>
+                        <h1>Console d&apos;administration GVP</h1>
+                    </Col>
+                    <Col md="3" style={{ textAlign: 'end' }}>
+                        <Button
+                            onClick={() => {
+                                setModalShow(true);
+                                setModalContent(ModalContent.addUser);
+                            }}
+                            style={{ marginTop: '10px' }}
+                        >
+                            Ajouter un utilisateur
+                        </Button>
                     </Col>
                 </Row>
                 <Row>

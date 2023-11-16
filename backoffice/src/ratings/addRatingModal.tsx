@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Button, Card, Form, Modal } from 'react-bootstrap';
+import { Badge, Button, Card, Col, Form, Modal, Row } from 'react-bootstrap';
 import { addRating } from './api';
 import { AddRatingParams } from './types';
 
@@ -10,7 +10,7 @@ interface AddRatingModalProps {
 }
 
 export const AddRatingModal: FC<AddRatingModalProps> = (props) => {
-    const [formData, setFormData] = useState({ rating: 5 });
+    const [formData, setFormData] = useState({ rating: 5, approved: true });
 
     const changeHandler = (event: any) => {
         const { name, value } = event.target;
@@ -52,6 +52,13 @@ export const AddRatingModal: FC<AddRatingModalProps> = (props) => {
                             <Form.Group className="mb-3">
                                 <Form.Label>Note</Form.Label>
                                 <Form.Range min={1} max={5} defaultValue={5} name="rating" onChange={changeHandler} />
+                                <Row>
+                                    <Col style={{ textAlign: 'center' }}>
+                                        <Badge pill bg="warning" text="dark">
+                                            {formData.rating}
+                                        </Badge>
+                                    </Col>
+                                </Row>
                             </Form.Group>
 
                             <Form.Group className="mb-3">
