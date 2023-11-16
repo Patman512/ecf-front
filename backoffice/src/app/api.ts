@@ -3,5 +3,5 @@ import { Callback } from '../libs/types';
 import { HomePageData } from './types';
 
 export const getHomePageData = (cb: Callback<HomePageData>) => {
-    makeRequestAPI({ endpoint: 'getwebapphomepagedata', data: {} }, cb);
+    makeRequestAPI({ endpoint: 'getbackofficehomepagedata', data: {} }, cb);
 };

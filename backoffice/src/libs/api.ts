@@ -10,11 +10,22 @@ export function makeRequestAPI<ResponseType>(
     cb: (error?: Error | null, response?: ResponseType) => void
 ): void {
     const { endpoint, data } = params;
+    let authorizationHeader = 'Basic ';
+    const tokenStr = localStorage.getItem('token');
+
+    if (tokenStr) {
+        const token = JSON.parse(tokenStr);
+        const expiry = token.expiry;
+        const now = new Date();
+        const userCredentials = expiry < now.getTime() ? 'expired' : token.value;
+        authorizationHeader += userCredentials;
+    }
 
     superagent
         .post(`/${endpoint}`)
         .type('application/json')
         .set('Accept', 'application/json')
+        .set('Authorization', authorizationHeader)
         .send(data)
         .end((error: Error, response: superagent.Response): void => {
             if (error) {

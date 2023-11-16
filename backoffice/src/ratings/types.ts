@@ -12,4 +12,10 @@ export interface AddRatingParams {
     name: string;
     comment: string | null;
     rating: number;
+    approved?: boolean;
+}
+
+export interface ApproveRatingParams {
+    ratingId: number;
+    approverId: number;
 }

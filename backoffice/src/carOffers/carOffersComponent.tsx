@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Button, Card, ListGroup } from 'react-bootstrap';
+import { Badge, Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
 import { CarOffer } from './types';
 
 interface CarOffersComponentProps {
@@ -10,9 +10,18 @@ interface CarOffersComponentProps {
 export const CarOffersComponent: FC<CarOffersComponentProps> = (props) => {
     const renderCarOffers = (carOffers: CarOffer[]) => {
         return carOffers.map((carOffers) => {
-            const { id, title } = carOffers;
+            const { id, title, sold } = carOffers;
 
-            return <ListGroup.Item key={id}>{title}</ListGroup.Item>;
+            return (
+                <ListGroup.Item key={id}>
+                    <Row>
+                        <Col md="9">{title}</Col>
+                        <Col md="3" style={{ textAlign: 'end' }}>
+                            <Badge bg={sold ? 'success' : 'warning'}>{sold ? 'Vendue' : 'En vente'}</Badge>
+                        </Col>
+                    </Row>
+                </ListGroup.Item>
+            );
         });
     };
 
