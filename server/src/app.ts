@@ -5,18 +5,34 @@ import { createUser } from './modules/accounts';
 import { addCarOffer } from './modules/carOffers';
 import { editOpeningHours } from './modules/openingHours';
 import { addService, editService, removeService } from './modules/services';
-import { getWebAppHomePageData, sendEmail, submitRating } from './modules/webApp';
+import { getBackofficeHomePageData, getWebAppHomePageData, sendEmail, submitRating } from './modules/webApp';
 import { uploadFiles } from './modules/images';
+import { approveRating } from './modules/ratings';
 
 const app = express();
-const port = 3000;
+const port = 3003;
 
 app.use(express.json());
 app.use(middleware);
 
 // Endpoint that provides all the data required to display the web app's home page
-app.get('/getwebapphomepagedata', (_req, res, next) => {
+app.post('/getwebapphomepagedata', (_req, res, next) => {
     getWebAppHomePageData((error, homePageData) => {
+        if (error) {
+            return next(error);
+        }
+
+        if (homePageData) {
+            return res.status(200).send(homePageData);
+        }
+
+        return res.status(500).send('Unexpected server error.');
+    });
+});
+
+// Endpoint that provides all the data required to display the backoffice's home page
+app.post('/getbackofficehomepagedata', (_req, res, next) => {
+    getBackofficeHomePageData((error, homePageData) => {
         if (error) {
             return next(error);
         }
@@ -43,6 +59,21 @@ app.post('/sendemailfromcontactform', (req, res, next) => {
 // Endpoint that submits a rating
 app.post('/submitrating', (req, res, next) => {
     submitRating(req.body, (error, result) => {
+        if (error) {
+            return next(error);
+        }
+
+        if (result) {
+            return res.status(200).send('OK');
+        }
+
+        return res.status(500).send('Unexpected server error.');
+    });
+});
+
+// Endpoint that approves a rating
+app.post('/approverating', (req, res, next) => {
+    approveRating(req.body, (error, result) => {
         if (error) {
             return next(error);
         }
