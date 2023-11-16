@@ -8,7 +8,6 @@
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "ignoreDeprecations": "5.0",
-        "isolatedModules": true,
         "jsx": "react-jsx",
         "lib": ["dom", "dom.iterable", "esnext"],
         "module": "esnext",
@@ -32,5 +31,5 @@
         "types": ["node"]
     },
     "exclude": [],
-    "include": ["src"]
+    "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }
