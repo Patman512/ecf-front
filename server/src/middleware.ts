@@ -45,10 +45,12 @@ export const middleware = (req: Request, res: Response, next: NextFunction) => {
 
     return validateAuthentication(
         { requestCredentials: credentials, requiredAccountType: requiredAuth[endpoint] },
-        (error) => {
+        (error, authorId) => {
             if (error) {
                 return res.status(403).send(error.message);
             }
+
+            res.locals.authorId = authorId;
 
             return next();
         }

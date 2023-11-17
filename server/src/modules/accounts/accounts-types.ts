@@ -6,4 +6,6 @@ export interface InsertUserParams {
     accountType: number;
 }
 
-export interface UserAccountInfo extends InsertUserParams {}
+export interface UserAccountInfo extends InsertUserParams {
+    id: number;
+}
