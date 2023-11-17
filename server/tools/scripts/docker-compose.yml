@@ -10,5 +10,3 @@ services:
             MARIADB_ROOT_PASSWORD: 'admin'
         ports:
             - '13305:3306'
-        tmpfs:
-            - /var/lib/mysql:rw
