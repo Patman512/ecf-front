@@ -21,6 +21,8 @@ export function makeRequestAPI<ResponseType>(
         authorizationHeader += userCredentials;
     }
 
+    authorizationHeader += 'tokenNotFound';
+
     superagent
         .post(`/${endpoint}`)
         .type('application/json')
