@@ -10,7 +10,7 @@
     "env:restart": "npm run env:kill && npm run env",
     "init-db": "./tools/scripts/init-db.sh",
     "test": "npx mocha -- -r ts-node/register 'src/tests/**/*.ts'",
-    "pm2": "ts-node -T -P server/tsconfig.json server/index.ts"
+    "pm2": "ts-node -T -P tsconfig.json src/app.ts"
   },
   "author": "",
   "license": "ISC",
