@@ -42,7 +42,7 @@ export const insertUser = (params: InsertUserParams, cb: Callback<ResultSetHeade
 
 export const getAccountInfoForEmail = (email: string, cb: Callback<UserAccountInfo>) => {
     db.query(
-        `SELECT firstName, lastName, email, pwdHash, accountType
+        `SELECT id, firstName, lastName, email, pwdHash, accountType
         FROM Users
         WHERE email = ?`,
         [email],

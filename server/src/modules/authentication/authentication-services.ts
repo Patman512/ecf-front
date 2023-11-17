@@ -1,8 +1,8 @@
-import { CallbackErrorOnly } from '../../types';
+import { Callback } from '../../types';
 import { UserAccountInfo, getAccountInfoForEmail } from '../accounts';
 import { ValidateAuthenticationParams } from './authentication-types';
 
-export const validateAuthentication = (params: ValidateAuthenticationParams, cb: CallbackErrorOnly) => {
+export const validateAuthentication = (params: ValidateAuthenticationParams, cb: Callback<number>) => {
     const { requestCredentials, requiredAccountType } = params;
     const decodedCredentials = Buffer.from(requestCredentials, 'base64').toString('ascii');
     const parsedCredentials = decodedCredentials.split(':');
@@ -14,12 +14,12 @@ export const validateAuthentication = (params: ValidateAuthenticationParams, cb:
             return cb(error);
         }
 
-        const { pwdHash: dbPwdHash, accountType: dbAccountType } = accountInfo as UserAccountInfo;
+        const { id, pwdHash: dbPwdHash, accountType: dbAccountType } = accountInfo as UserAccountInfo;
 
         if (requestPwdHash !== dbPwdHash || requiredAccountType < dbAccountType) {
             return cb(new Error('Unauthorized'));
         }
 
-        return cb();
+        return cb(null, id);
     });
 };

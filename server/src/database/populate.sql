@@ -8,9 +8,9 @@ DELETE FROM Services;
 DELETE FROM OpeningHours;
 
 INSERT INTO Users (firstName, lastName, email, pwdHash, accountType) VALUES
-('Vincent', 'Parrot', 'vincent.parrot@garagevp.fr', '$2b$10$PkwvNmNbqfsLS37vh2QXseh2eDjn4cwnZimm9KtNkxk.ztWjwGBbC', 1),
-('Simone', 'Martin', 'simone.martin@garagevp.fr', '$2b$10$UZlomcl81wVYZ5aQ.u6BheZPVAkH2KacLbMMEd0RRhNKPVXt.fVh6', 2),
-('Charles', 'Li', 'charles.li@garagevp.fr', '$2b$10$r0llTNfbkPUi/nppbZDdiuORcD49mrN3is3UnDf0.DPuzU2wWWVni', 2);
+('Vincent', 'Parrot', 'vincent.parrot@garagevp.fr', 'e1893179c42a9e132b759bbf23c46207', 1),
+('Simone', 'Martin', 'simone.martin@garagevp.fr', '38882c09b8a54c96f4ea816a0de505c7', 2),
+('Charles', 'Li', 'charles.li@garagevp.fr', 'd4425da531cb43242cd11c8c4c340d32', 2);
 
 INSERT INTO AccountTypes (name) VALUES
 ('Administrator'),
@@ -63,7 +63,7 @@ INSERT INTO Services (name, description) VALUES
 ('Peinture carrosserie', 'Complément de réparation de carrosserie, rajeunissement de couleur ou changement de look. Merci de contacter le garage pour obtenir un devis.'),
 ('Entretien', 'Changement de toute pièce d''usure, vidange, contrôle des niveaux de fluides, etc... Merci de contacter le garage pour prendre rendez-vous.'),
 ('Géométrie', 'Changement de pneumatiques, parallélisme, équilibrage. Merci de contacter le garage pour prendre rendez-vous.'),
-('Vente véhicules d''occasion', 'Voici la liste des véhicules d''occasion en vente dans notre garage. N''hésitez pas à nous contacter pour obtenir plus d''informations.');
+('Vente véhicules d''occasion', 'Nous proposons une liste des véhicules d''occasion en vente dans notre garage. Vous pouvez la consulter dans la section dédiée. N''hésitez pas à nous contacter pour obtenir plus d''informations.');
 
 INSERT INTO OpeningHours (dayOfWeek, openingTime, closingTime, breakStartTime, breakEndTime) VALUES
 ('Lundi', '7:00', '19:00', '12:00', '14:00'),

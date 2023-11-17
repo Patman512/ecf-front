@@ -73,7 +73,9 @@ app.post('/submitrating', (req, res, next) => {
 
 // Endpoint that approves a rating
 app.post('/approverating', (req, res, next) => {
-    approveRating(req.body, (error, result) => {
+    const params = { ...req.body, approverId: res.locals.authorId };
+
+    approveRating(params, (error, result) => {
         if (error) {
             return next(error);
         }
@@ -163,13 +165,15 @@ app.post('/editopeninghours', (req, res, next) => {
 
 // Endpoint that adds a new car offer
 app.post('/addcaroffer', (req, res, next) => {
-    addCarOffer(req.body, (error, result) => {
+    const params = { ...req.body, authorId: res.locals.authorId };
+
+    addCarOffer(params, (error, carOfferId) => {
         if (error) {
             return next(error);
         }
 
-        if (result) {
-            return res.status(200).send(result);
+        if (carOfferId) {
+            return res.status(200).send({ carOfferId });
         }
 
         return res.status(500).send('Unexpected server error.');
