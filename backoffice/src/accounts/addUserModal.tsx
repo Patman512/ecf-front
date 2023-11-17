@@ -11,7 +11,7 @@ interface AddUserModalProps {
 }
 
 export const AddUserModal: FC<AddUserModalProps> = (props) => {
-    const [formData, setFormData] = useState({ accountType: 2 });
+    const [formData, setFormData] = useState({ accountTypeStr: '2' });
 
     const changeHandler = (event: any) => {
         const { name, value } = event.target;
@@ -20,9 +20,9 @@ export const AddUserModal: FC<AddUserModalProps> = (props) => {
     };
 
     const submitHandler = () => {
-        const { firstName, lastName, email, password, accountType } = formData as AddUserFormData;
+        const { firstName, lastName, email, password, accountTypeStr } = formData as AddUserFormData;
         const pwdHash = md5(password);
-        const input = { firstName, lastName, email, pwdHash, accountType };
+        const input = { firstName, lastName, email, pwdHash, accountType: Number(accountTypeStr) };
 
         addUser(input, (error) => {
             if (error) {
@@ -36,7 +36,7 @@ export const AddUserModal: FC<AddUserModalProps> = (props) => {
 
     const canSubmit = () => {
         const formDataKeys = Object.keys(formData);
-        const requiredProperties = ['firstName', 'lastName', 'email', 'password', 'accountType'];
+        const requiredProperties = ['firstName', 'lastName', 'email', 'password', 'accountTypeStr'];
 
         return (
             formDataKeys.length &&
@@ -76,7 +76,7 @@ export const AddUserModal: FC<AddUserModalProps> = (props) => {
 
                             <Form.Group className="mb-3">
                                 <Form.Label>Type d&apos;utilisateur</Form.Label>
-                                <Form.Select name="accountType" onChange={changeHandler}>
+                                <Form.Select name="accountTypeStr" onChange={changeHandler}>
                                     <option value={2}>Employé</option>
                                     <option value={1}>Administrateur</option>
                                 </Form.Select>
