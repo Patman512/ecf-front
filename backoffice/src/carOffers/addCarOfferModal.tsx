@@ -1,25 +1,25 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Accordion, Button, Form, Modal } from 'react-bootstrap';
-import { AddCarOfferParams, CarOffer, Equipment } from './types';
-import { addCarOffer, uploadFiles } from './api';
+import { AddCarOfferForm, AddCarOfferParams, Equipment } from './types';
+import { addCarOffer } from './api';
 
 const formSchema = {
-    title: 'text',
-    description: 'textarea',
-    priceInCents: 'number',
-    manufacturer: 'text',
-    model: 'text',
-    year: 'number',
-    mileageInKm: 'number',
-    fuelType: 'text',
-    gearboxType: 'text',
-    carType: 'text',
-    color: 'text',
-    numberOfDoors: 'number',
-    numberOfSeats: 'number',
-    taxHorsePower: 'number',
-    horsePower: 'number',
-    equipments: 'equipments'
+    formTitle: { fr: 'Titre', type: 'text' },
+    formDescription: { fr: 'Description', type: 'textarea' },
+    formPriceInEuros: { fr: 'Prix en Euros', type: 'number' },
+    formManufacturer: { fr: 'Marque', type: 'text' },
+    formModel: { fr: 'Modèle', type: 'text' },
+    formYear: { fr: 'Année de mise en circulation', type: 'number' },
+    formMileageInKm: { fr: 'Kilométrage', type: 'number' },
+    formFuelType: { fr: 'Carburant', type: 'text' },
+    formGearboxType: { fr: 'Type de boîte de vitesses', type: 'text' },
+    formCarType: { fr: 'Type de véhicule', type: 'text' },
+    formColor: { fr: 'Couleur', type: 'text' },
+    formNumberOfDoors: { fr: 'Nombre de portes', type: 'number' },
+    formNumberOfSeats: { fr: 'Nombre de places', type: 'number' },
+    formTaxHorsePower: { fr: 'Nombre de chevaux fiscaux', type: 'number' },
+    formHorsePower: { fr: 'Nombre de chevaux', type: 'number' },
+    formEquipments: { fr: 'Equipements', type: 'equipments' }
 };
 
 interface AddCarOfferModalModalProps {
@@ -30,8 +30,7 @@ interface AddCarOfferModalModalProps {
 }
 
 export const AddCarOfferModal: FC<AddCarOfferModalModalProps> = (props) => {
-    const [formData, setFormData] = useState({});
-    const [formValidated, setFormValidated] = useState(false);
+    const [formData, setFormData] = useState<AddCarOfferForm | null>(null);
     const [runValidation, setRunValidation] = useState(false);
 
     const changeHandler = (event: any) => {
@@ -39,7 +38,7 @@ export const AddCarOfferModal: FC<AddCarOfferModalModalProps> = (props) => {
 
         if (type === 'checkbox') {
             const { id, checked } = event.target;
-            const selectedEquipments: string[] = formData['equipments'] || [];
+            const selectedEquipments = formData?.formEquipments || [];
 
             if (checked) {
                 selectedEquipments.push(id);
@@ -48,13 +47,13 @@ export const AddCarOfferModal: FC<AddCarOfferModalModalProps> = (props) => {
                 selectedEquipments.splice(index, 1);
             }
 
-            return setFormData({ ...formData, equipments: selectedEquipments });
+            return setFormData({ ...(formData as AddCarOfferForm), formEquipments: selectedEquipments });
         }
 
         const { name, value } = event.target;
         const verifiedValue = value === '' ? null : value;
 
-        return setFormData({ ...formData, [name]: verifiedValue });
+        return setFormData({ ...(formData as AddCarOfferForm), [name]: verifiedValue });
     };
 
     const submitHandler = (event: any) => {
@@ -66,37 +65,66 @@ export const AddCarOfferModal: FC<AddCarOfferModalModalProps> = (props) => {
             return setRunValidation(true);
         }
 
-        return setFormValidated(true);
-    };
+        const {
+            formTitle,
+            formDescription,
+            formPriceInEuros,
+            formManufacturer,
+            formModel,
+            formYear,
+            formMileageInKm,
+            formFuelType,
+            formGearboxType,
+            formCarType,
+            formColor,
+            formNumberOfDoors,
+            formNumberOfSeats,
+            formTaxHorsePower,
+            formHorsePower,
+            formEquipments
+        } = formData as AddCarOfferForm; // Cannot be null because of form.checkValidity() above
 
-    useEffect(() => {
-        if (formValidated) {
-            if (Object.keys(formData).includes('equipments')) {
-                formData['equipments'] = formData['equipments'].join(',');
+        const params: AddCarOfferParams = {
+            title: formTitle,
+            description: formDescription ?? null,
+            priceInCents: Number(formPriceInEuros) * 100,
+            manufacturer: formManufacturer,
+            model: formModel,
+            year: Number(formYear),
+            mileageInKm: Number(formMileageInKm),
+            fuelType: formFuelType,
+            gearboxType: formGearboxType,
+            carType: formCarType,
+            color: formColor,
+            numberOfDoors: Number(formNumberOfDoors),
+            numberOfSeats: Number(formNumberOfSeats),
+            taxHorsePower: Number(formTaxHorsePower),
+            horsePower: Number(formHorsePower),
+            equipments: formEquipments ? formEquipments.join(',') : null
+        };
+
+        // TODO figure out why the endpoint does not send a response
+        return addCarOffer(params, (error, response) => {
+            console.log('Error: ', error, ' Response: ', response);
+            if (error) {
+                return props.onError(error);
             }
 
-            //TODO add authorId property from local storage to formData before calling the endpoint
+            if (!response?.carOfferId) {
+                return props.onError(new Error('Erreur inattendue.'));
+            }
 
-            addCarOffer(formData as AddCarOfferParams, (error, carOfferId) => {
+            //TODO handle file upload in HTTP request and file names
+            /*uploadFiles({ carOfferId: response.carOfferId }, (error) => {
                 if (error) {
-                    return props.onError(error);
+                    props.onError(error);
                 }
 
-                if (!carOfferId) {
-                    return props.onError(new Error('Erreur inattendue.'));
-                }
-
-                //TODO handle file upload in HTTP request and file names
-                uploadFiles({ carOfferId }, (error) => {
-                    if (error) {
-                        props.onError(error);
-                    }
-
-                    return props.onSave();
-                });
-            });
-        }
-    }, [formValidated]);
+                return props.onSave();
+            });*/
+            return props.onSave();
+        });
+    };
 
     const renderEquipmentsForm = (equipmentsList: Equipment[]) => {
         return equipmentsList.map((equipment) => {
@@ -117,9 +145,10 @@ export const AddCarOfferModal: FC<AddCarOfferModalModalProps> = (props) => {
 
     const renderFormGroups = () => {
         return Object.keys(formSchema).map((key) => {
-            const formType = formSchema[key] === 'textarea' ? 'text' : formSchema[key];
-            const formAs = formSchema[key] === 'textarea' ? formSchema[key] : undefined;
-            const isRequired = !['description', 'equipments'].includes(key);
+            const formLabel = formSchema[key].fr;
+            const formType = formSchema[key].type === 'textarea' ? 'text' : formSchema[key].type;
+            const formAs = formSchema[key].type === 'textarea' ? formSchema[key].type : undefined;
+            const isRequired = !['formDescription', 'formEquipments'].includes(key);
 
             if (formType === 'equipments') {
                 return (
@@ -134,7 +163,7 @@ export const AddCarOfferModal: FC<AddCarOfferModalModalProps> = (props) => {
 
             return (
                 <Form.Group key={key} className="mb-3">
-                    <Form.Label>{key}</Form.Label>
+                    <Form.Label>{formLabel}</Form.Label>
                     <Form.Control
                         type={formType}
                         name={key}
@@ -156,7 +185,7 @@ export const AddCarOfferModal: FC<AddCarOfferModalModalProps> = (props) => {
             <Modal.Body>
                 <Form noValidate validated={runValidation} onSubmit={submitHandler}>
                     {renderFormGroups()}
-                    <Form.Group controlId="formFile" className="mb-3">
+                    {/*<Form.Group controlId="formFile" className="mb-3">
                         <Form.Label>Photo principale</Form.Label>
                         <Form.Control
                             //required
@@ -167,10 +196,10 @@ export const AddCarOfferModal: FC<AddCarOfferModalModalProps> = (props) => {
                     <Form.Group controlId="formFileMultiple" className="mb-3">
                         <Form.Label>Photos supplémentaires</Form.Label>
                         <Form.Control type="file" multiple />
-                    </Form.Group>
+    </Form.Group>*/}
                     <Button
                         type="submit"
-                        disabled={!Object.keys(formData).length}
+                        disabled={!formData || !Object.keys(formData).length}
                         variant="success"
                         style={{ marginRight: '10px' }}
                     >

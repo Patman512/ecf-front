@@ -17,5 +17,4 @@ export interface AddRatingParams {
 
 export interface ApproveRatingParams {
     ratingId: number;
-    approverId: number;
 }

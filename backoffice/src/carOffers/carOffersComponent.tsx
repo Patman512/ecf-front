@@ -9,20 +9,23 @@ interface CarOffersComponentProps {
 
 export const CarOffersComponent: FC<CarOffersComponentProps> = (props) => {
     const renderCarOffers = (carOffers: CarOffer[]) => {
-        return carOffers.map((carOffers) => {
-            const { id, title, sold } = carOffers;
+        return carOffers
+            .sort((a, b) => b.id - a.id)
+            .slice(0, 8)
+            .map((carOffers) => {
+                const { id, title, sold } = carOffers;
 
-            return (
-                <ListGroup.Item key={id}>
-                    <Row>
-                        <Col md="9">{title}</Col>
-                        <Col md="3" style={{ textAlign: 'end' }}>
-                            <Badge bg={sold ? 'success' : 'warning'}>{sold ? 'Vendue' : 'En vente'}</Badge>
-                        </Col>
-                    </Row>
-                </ListGroup.Item>
-            );
-        });
+                return (
+                    <ListGroup.Item key={id}>
+                        <Row>
+                            <Col md="9">{title}</Col>
+                            <Col md="3" style={{ textAlign: 'end' }}>
+                                <Badge bg={sold ? 'success' : 'warning'}>{sold ? 'Vendue' : 'En vente'}</Badge>
+                            </Col>
+                        </Row>
+                    </ListGroup.Item>
+                );
+            });
     };
 
     return (
