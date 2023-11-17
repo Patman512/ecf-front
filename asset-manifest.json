@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/ecf-studi/static/css/main.72272b46.css",
-    "main.js": "/ecf-studi/static/js/main.b227bc29.js",
+    "main.js": "/ecf-studi/static/js/main.94bbd438.js",
     "static/js/787.1fa89c37.chunk.js": "/ecf-studi/static/js/787.1fa89c37.chunk.js",
     "index.html": "/ecf-studi/index.html",
     "main.72272b46.css.map": "/ecf-studi/static/css/main.72272b46.css.map",
-    "main.b227bc29.js.map": "/ecf-studi/static/js/main.b227bc29.js.map",
+    "main.94bbd438.js.map": "/ecf-studi/static/js/main.94bbd438.js.map",
     "787.1fa89c37.chunk.js.map": "/ecf-studi/static/js/787.1fa89c37.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.72272b46.css",
-    "static/js/main.b227bc29.js"
+    "static/js/main.94bbd438.js"
   ]
 }
