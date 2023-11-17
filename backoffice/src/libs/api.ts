@@ -19,9 +19,9 @@ export function makeRequestAPI<ResponseType>(
         const now = new Date();
         const userCredentials = expiry < now.getTime() ? 'expired' : token.value;
         authorizationHeader += userCredentials;
+    } else {
+        authorizationHeader += 'tokenNotFound';
     }
-
-    authorizationHeader += 'tokenNotFound';
 
     superagent
         .post(`/${endpoint}`)

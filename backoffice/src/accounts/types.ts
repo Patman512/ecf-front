@@ -11,5 +11,5 @@ export interface AddUserFormData {
     lastName: string;
     email: string;
     password: string;
-    accountType: number;
+    accountTypeStr: string;
 }
