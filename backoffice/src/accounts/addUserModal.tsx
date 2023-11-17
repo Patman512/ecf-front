@@ -1,6 +1,6 @@
 import md5 from 'md5';
 import React, { FC, useState } from 'react';
-import { Badge, Button, Card, Col, Form, Modal, Row } from 'react-bootstrap';
+import { Button, Card, Form, Modal } from 'react-bootstrap';
 import { addUser } from './api';
 import { AddUserFormData } from './types';
 

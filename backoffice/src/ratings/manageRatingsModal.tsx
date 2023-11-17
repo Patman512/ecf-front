@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Badge, Button, Card, Col, Form, Modal, Row } from 'react-bootstrap';
+import { Badge, Button, Card, Col, Modal, Row } from 'react-bootstrap';
 import { approveRating } from './api';
 import { Rating } from './types';
 
@@ -12,9 +12,8 @@ interface ManageRatingsModalProps {
 
 export const ManageRatingsModal: FC<ManageRatingsModalProps> = (props) => {
     const submitHandler = (ratingId: number) => {
-        // TODO fix approverId
         return () =>
-            approveRating({ ratingId, approverId: 1 }, (error) => {
+            approveRating({ ratingId }, (error) => {
                 if (error) {
                     return props.onError(error);
                 }

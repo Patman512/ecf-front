@@ -15,7 +15,7 @@ export const RatingsComponent: FC<RatingsComponentProps> = (props) => {
             .sort((a, b) => b.creationDateUnix - a.creationDateUnix)
             .slice(0, 2)
             .map((ratingEntry) => {
-                const { id, authorName, comment, rating, creationDateUnix, approved } = ratingEntry;
+                const { id, authorName, comment, rating, creationDateUnix } = ratingEntry;
 
                 return (
                     <Card key={id} bg="light" style={{ marginTop: '10px', marginBottom: '10px' }}>
