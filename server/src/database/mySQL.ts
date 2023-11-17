@@ -7,3 +7,5 @@ export const db = mysql.createConnection({
     database: 'db',
     port: 13305
 });
+
+console.log('Connection created: ', db);

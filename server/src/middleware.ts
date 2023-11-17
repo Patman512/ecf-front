@@ -27,11 +27,16 @@ export const middleware = (req: Request, res: Response, next: NextFunction) => {
         headers: { authorization }
     } = req;
 
+    console.log(`Request to ${endpoint}...`);
+
     if (requiredAuth[endpoint] === null) {
         return next();
     }
 
+    console.log('Authenticating...');
+
     if (!authorization) {
+        console.error('ERROR: No authorization header.');
         return res.status(400).send('Missing authorization header');
     }
 
@@ -40,16 +45,21 @@ export const middleware = (req: Request, res: Response, next: NextFunction) => {
     const credentials = parsedAuth[1];
 
     if (authType !== 'Basic') {
+        console.error('ERROR: Wrong authentication type.');
         return res.status(400).send('Invalid authentication');
     }
+
+    console.log('Verifying credentials...');
 
     return validateAuthentication(
         { requestCredentials: credentials, requiredAccountType: requiredAuth[endpoint] },
         (error, authorId) => {
             if (error) {
+                console.error('Authentication failed: ', error.message);
                 return res.status(403).send(error.message);
             }
 
+            console.log('Authentication succeeded.');
             res.locals.authorId = authorId;
 
             return next();
