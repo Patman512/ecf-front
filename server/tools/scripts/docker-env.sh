@@ -33,10 +33,5 @@ done
 
 
 if [ "${INITDB}" = true ]; then
-    export MYSQL_USER_HOST=127.0.0.1
-    export MYSQL_USER_PORT=13305
-    export MYSQL_USER_USER=root
-    export MYSQL_USER_PASSWORD=admin
-
     "${SCRIPT_DIR}/init-db.sh"
 fi

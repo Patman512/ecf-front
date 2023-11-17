@@ -17,6 +17,7 @@ export const validateAuthentication = (params: ValidateAuthenticationParams, cb:
         const { id, pwdHash: dbPwdHash, accountType: dbAccountType } = accountInfo as UserAccountInfo;
 
         if (requestPwdHash !== dbPwdHash || requiredAccountType < dbAccountType) {
+            console.error('ERROR: Wrong password or insufficient permissions.');
             return cb(new Error('Unauthorized'));
         }
 

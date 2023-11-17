@@ -17,8 +17,12 @@ app.use(middleware);
 
 // Endpoint that provides all the data required to display the web app's home page
 app.post('/getwebapphomepagedata', (_req, res, next) => {
+    console.log('Entered GWAHPD route.');
+
     getWebAppHomePageData((error, homePageData) => {
         if (error) {
+            console.error('ERROR: ', error.message);
+
             return next(error);
         }
 
