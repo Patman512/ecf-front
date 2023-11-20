@@ -18,7 +18,8 @@ const requiredAuth = {
     '/removeservice': AccountType.Administrator,
     '/editopeninghours': AccountType.Administrator,
     '/addcaroffer': AccountType.Employee,
-    '/uploadfiles': AccountType.Employee
+    '/uploadfiles': AccountType.Employee,
+    '/.well-known/pki-validation/D49AE4DD08FEAC3D5F89B28182851C24.txt': null
 };
 
 export const middleware = (req: Request, res: Response, next: NextFunction) => {
