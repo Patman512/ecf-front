@@ -196,8 +196,8 @@ app.post('/uploadfiles', fileUpload({ createParentPath: true }), (req, res, next
 });
 
 // Authentication file for the certification
-app.get('/.well-known/pki-validation/D49AE4DD08FEAC3D5F89B28182851C24.txt', (_req, res, _next) => {
-    res.sendFile(__dirname + '/modules/authentication/D49AE4DD08FEAC3D5F89B28182851C24.txt');
+app.get('/.well-known/pki-validation/1EA63F0AADA2A7A1FF9717DF7D4C3D12.txt', (_req, res, _next) => {
+    res.sendFile(__dirname + '/modules/authentication/1EA63F0AADA2A7A1FF9717DF7D4C3D12.txt');
 });
 
 app.listen(port);
