@@ -38,6 +38,6 @@ Pour lancer le backoffice en local, il faut tout d'abord clôner ce dépôt.
 
 Il faut vous assurer d'avoir installé `node` et `npm`.
 
-Le backoffice et l'application publique sont paramétrés par défaut pour faire leurs appels API au serveur en ligne. Si vous souhaitez les faire communiquer avec le serveur local, il vous faudra modifier le proxy dans [package.json](backoffice/package.json#l5) et utiliser `http://localhost:3003/` au lieu de `http://64.226.72.248:3003/` (64.226.72.248 étant l'adresse IP du droplet Digital Ocean).
+Le backoffice et l'application publique sont paramétrés par défaut pour faire leurs appels API au serveur en ligne. Si vous souhaitez les faire communiquer avec le serveur local, il vous faudra modifier le proxy dans [package.json](backoffice/package.json#l5) et utiliser `http://localhost:3003` au lieu de `https://64.226.72.248` (64.226.72.248 étant l'adresse IP du droplet Digital Ocean).
 
 Il suffira ensuite, dans votre terminal, de vous déplacer dans le dossier `backoffice` (`cd ecf-studi/backoffice`) et de lancer la commande `npm start`, ce qui lancera le server Webpack du backoffice et ouvrira l'app dans votre navigateur.
