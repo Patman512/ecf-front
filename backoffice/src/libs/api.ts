@@ -24,7 +24,7 @@ export function makeRequestAPI<ResponseType>(
     }
 
     superagent
-        .post(`/${endpoint}`)
+        .post(`https://64.226.72.248/${endpoint}`)
         .type('application/json')
         .set('Accept', 'application/json')
         .set('Authorization', authorizationHeader)
