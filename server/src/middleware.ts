@@ -19,7 +19,7 @@ const requiredAuth = {
     '/editopeninghours': AccountType.Administrator,
     '/addcaroffer': AccountType.Employee,
     '/uploadfiles': AccountType.Employee,
-    '/.well-known/pki-validation/D49AE4DD08FEAC3D5F89B28182851C24.txt': null
+    '/.well-known/pki-validation/1EA63F0AADA2A7A1FF9717DF7D4C3D12.txt': null
 };
 
 export const middleware = (req: Request, res: Response, next: NextFunction) => {

@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as cors from 'cors';
 import * as fileUpload from 'express-fileupload';
 import { middleware } from './middleware';
 import { createUser } from './modules/accounts';
@@ -12,6 +13,7 @@ import { approveRating } from './modules/ratings';
 const app = express();
 const port = 3003;
 
+app.use(cors());
 app.use(express.json());
 app.use(middleware);
 
