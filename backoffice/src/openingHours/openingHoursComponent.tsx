@@ -8,24 +8,6 @@ interface OpeningHoursComponentProps {
 }
 
 export const OpeningHoursComponent: FC<OpeningHoursComponentProps> = (props) => {
-    const tableContent = props.openingHours.reduce(
-        (rows, openingHour) => {
-            const { dayOfWeek, openingTime, closingTime, breakStartTime, breakEndTime } = openingHour;
-            const textAlignValue = 'center';
-
-            rows.days.push(<td style={{ textAlign: textAlignValue }}>{dayOfWeek}</td>);
-            rows.hours.push(
-                <td style={{ textAlign: textAlignValue }}>
-                    {openingTime} - {breakStartTime ? `${breakStartTime}, ${breakEndTime} - ` : ''}
-                    {closingTime}
-                </td>
-            );
-
-            return rows;
-        },
-        { days: [] as JSX.Element[], hours: [] as JSX.Element[] }
-    );
-
     const renderTableRows = (openingHours: OpeningHour[]) => {
         return openingHours.map((openingHour) => {
             const { id, dayOfWeek, openingTime, closingTime, breakStartTime, breakEndTime } = openingHour;
